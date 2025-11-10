@@ -1,4 +1,4 @@
-#%%%%%%%% Import des données ASPE pour les Hauts-de-France #%%%%%%%%%
+#%%%%%%%% Import des données ASPE pour la Nouvelle-Aquitaine #%%%%%%%%%
 
 #------------------Définir le working directory comme source file location 
 
@@ -10,13 +10,20 @@ setwd(dirname(current_path))
 
 #--------importation des RData des tables de base 
 
+file <- "C:/Users/charlotte.florin/Desktop/Projets_R/ASPE_valorisation/raw_data/aspe_dump.sql"
+
+
+imp_importer_dump_sql(fichier_dump = file)
+imp_scinder_dump(fichier_dump = file)
+
+
+
 load(file="../raw_data/tables_sauf_mei_2024_05_23_10_07_36.117841.Rdata")
 load(file="../raw_data/mei_2024_05_23_10_07_36.063491.RData")
 
-#--------création du data frame de données individuelles pour les HDF 
-## pour les HDF = toutes les opérations commanditées par la DR HDF 
+#--------création du data frame de données individuelles  
 
-aspe_mei_hdf <- 
+aspe_mei_na <- 
   
   aspe::mef_creer_passerelle() %>% # creation passerelle
   
@@ -39,7 +46,7 @@ aspe_mei_hdf <-
                    by="ope_id") %>% 
   
  
-  dplyr::filter(grepl('HAUTS DE FRANCE', commanditaire)) %>%  # filtre sur les opérations commanditées par la DR HDF 
+  dplyr::filter(grepl('NOUVELLE AQUITAINE', commanditaire)) %>%  # filtre sur les opérations commanditées par la DR NA
   
 
   dplyr::left_join(station %>%   # jointure infos SANDRE sur les stations
